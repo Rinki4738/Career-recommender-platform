@@ -1,0 +1,86 @@
+/* nnnnnnn */
+.hero {
+  min-height: 88vh;
+  background: url("https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1600&q=80")
+    center / cover no-repeat;
+  position: relative;
+}
+
+/* Dark overlay */
+.overlay {
+  position: absolute;
+  background: rgba(0, 0, 0, 0.56);
+  inset: 0;
+  height: 100%;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 24px;
+}
+
+.overlay h1 {
+  font-size: clamp(28px, 5vw, 44px);
+  font-weight: 800;
+  letter-spacing: 0.2px;
+  margin-bottom: 14px;
+  line-height: 1.2;
+}
+
+.overlay p {
+  font-size: clamp(15px, 2.2vw, 18px);
+  margin-bottom: 26px;
+  max-width: 680px;
+  line-height: 1.6;
+  opacity: 0.95;
+}
+
+/* Auth Buttons */
+.auth-buttons {
+  display: flex;
+  gap: 14px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.email-btn,
+.google-btn {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 15px;
+  min-width: 180px;
+  transition: transform 0.15s ease, box-shadow 0.2s ease, background 0.2s ease;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+}
+
+.email-btn {
+  background: #2563eb;
+  color: white;
+}
+
+.email-btn:hover {
+  background: #1d4ed8;
+  transform: translateY(-1px);
+}
+
+.google-btn {
+  background: #db4437; /* Google red */
+  color: white;
+}
+
+.google-btn:hover {
+  background: #b23327;
+  transform: translateY(-1px);
+}
+
+.email-btn:focus-visible,
+.google-btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.35);
+}
