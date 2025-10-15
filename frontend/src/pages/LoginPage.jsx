@@ -1,9 +1,10 @@
 // src/pages/LoginPage.jsx
 import { useState } from "react";
 import { saveToken } from "../utils/auth";
-import { Link } from "react-router-dom";
+import { Link ,useNavigate} from "react-router-dom";
 
 function LoginPage() {
+  const navigate = useNavigate();
   const [form, setForm] = useState({ email: "", password: "" });
 
   const handleChange = (e) => {
@@ -22,6 +23,7 @@ function LoginPage() {
     if (res.ok && data.token) {
       saveToken(data.token);
       alert("Login successful!");
+      navigate("/dashboard");
     } else {
       alert(data.error || "Login failed");
     }

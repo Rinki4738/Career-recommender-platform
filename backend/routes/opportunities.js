@@ -1,20 +1,82 @@
-import { Router } from "express";
+import express from "express";
 import Opportunity from "../models/Opportunity.js";
-const r = Router();
-r.get("/", async (req,res)=>{
-  const {type, location, minLPA} = req.query;
-  const q = {};
-  if(type) q.type=type;
-  if(location) q.location = new RegExp(location,"i");
-  if(minLPA) q.salaryLPA = {$gte: Number(minLPA)};
-  res.json(await Opportunity.find(q).sort({createdAt:-1}).limit(50));
+
+const router = express.Router();
+
+// 1️⃣ Get all opportunities
+router.get("/", async (req, res) => {
+  try {
+    const opportunities = await Opportunity.find().sort({ createdAt: -1 });
+    res.json(opportunities);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
-r.post("/seed", async (req,res)=>{
-  const demo = [
-    { title:"SDE Intern", company:"Acme", type:"internship", location:"Bengaluru", stipend:30000, jd:"JS React Node SQL", skills:["javascript","react","node","sql"], applyUrl:"#", deadline:new Date(Date.now()+2592000000), source:"seed" },
-    { title:"Data Analyst", company:"DataCorp", type:"job", location:"Hyderabad", salaryLPA:8, jd:"SQL Python Pandas", skills:["sql","python","pandas"], applyUrl:"#", deadline:new Date(Date.now()+1728000000), source:"seed" }
-  ];
-  await Opportunity.insertMany(demo);
-  res.json({ok:true, inserted:demo.length});
+
+
+
+// 3️⃣ Advanced filter opportunities dynamically
+// Example: /api/opportunities/filter?type=job&location=Remote&skills=React,Node.js&minSalary=5&maxSalary=15&workType=hybrid&remote=true
+router.get("/filter", async (req, res) => {
+  try {
+    const {
+      type,
+      location,
+      skills,
+      minSalary,
+      maxSalary,
+      stipendMin,
+      stipendMax,
+      rewardMin,
+      rewardMax,
+      workType,
+      remote,
+      applyBefore, // YYYY-MM-DD
+    } = req.query;
+
+    const filter = {};
+
+    if (type) filter.type = type;
+    if (location) filter.location = { $regex: location, $options: "i" };
+    if (skills) filter.skills = { $in: skills.split(",") };
+
+    if (minSalary || maxSalary) {
+      filter.salaryLPA = {};
+      if (minSalary) filter.salaryLPA.$gte = Number(minSalary);
+      if (maxSalary) filter.salaryLPA.$lte = Number(maxSalary);
+    }
+
+    if (stipendMin || stipendMax) {
+      filter.stipend = {};
+      if (stipendMin) filter.stipend.$gte = Number(stipendMin);
+      if (stipendMax) filter.stipend.$lte = Number(stipendMax);
+    }
+
+    if (rewardMin || rewardMax) {
+      filter.reward = {};
+      if (rewardMin) filter.reward.$gte = Number(rewardMin);
+      if (rewardMax) filter.reward.$lte = Number(rewardMax);
+    }
+
+    if (workType) filter.workType = workType;
+    if (remote !== undefined) filter.remote = remote === "true";
+    if (applyBefore) filter.applyDeadline = { $lte: new Date(applyBefore) };
+
+    const results = await Opportunity.find(filter).sort({ createdAt: -1 });
+    res.json(results);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
-export default r;
+// 2️⃣ Get single opportunity by ID
+router.get("/:id", async (req, res) => {
+  try {
+    const opp = await Opportunity.findById(req.params.id);
+    if (!opp) return res.status(404).json({ message: "Opportunity not found" });
+    res.json(opp);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+export default router;

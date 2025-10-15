@@ -5,6 +5,7 @@ import LoginPage from "./pages/LoginPage";
 import ProfilePage from "./pages/ProfilePge";
 import RecommendationPage from "./pages/RecommendationPage";
 import LandingPage from "./pages/LandingPage";
+import DashboardPage from "./pages/DashboardPage";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/recommendations" element={<RecommendationPage />} />
+        <Route path="/dashboard" element={<DashboardPage/>} />
         
       </Routes>
     </div>
