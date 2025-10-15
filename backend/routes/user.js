@@ -69,7 +69,6 @@ r.post("/login", async (req, res) => {
   }
 });
 
-// Update logged-in user's skills
 r.put("/skills", auth, async (req, res) => {
   const { skills } = req.body;
   if (!Array.isArray(skills)) {
@@ -84,28 +83,38 @@ r.put("/skills", auth, async (req, res) => {
     );
     res.json({ skills: updated.skills });
   } catch (err) {
-    res.status(500).json({ error: "Error updating profile" });
+    res.status(500).json({ error: "Error updating skills" });
   }
 });
 
-// Get logged-in user's profile
+// 2️⃣ Get logged-in user's profile
 r.get("/me", auth, async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select("-password");
+
+    // Ensure old users have the new fields initialized
+    if (!user.skills) user.skills = [];
+    if (!user.preferences) user.preferences = { role: "", location: "", minLPA: 0 };
+    if (!user.resumeBullets) user.resumeBullets = [];
+
     res.json(user);
   } catch (err) {
     res.status(500).json({ error: "Failed to fetch profile" });
   }
 });
 
-// Update logged-in user's profile
+// 3️⃣ Update logged-in user's profile (new fields included)
 r.put("/update", auth, async (req, res) => {
   try {
+    // Extract only allowed fields to avoid accidental overwrites
+    const { skills, preferences, resumeBullets, name, email } = req.body;
+    const updateData = { skills, preferences, resumeBullets, name, email };
+
     const updated = await User.findByIdAndUpdate(
       req.user.id,
-      { $set: req.body },
-      { new: true }
-    ).select("-password");
+      { $set: updateData },
+      { new: true, select: "-password" }
+    );
 
     res.json(updated);
   } catch (err) {
@@ -114,4 +123,3 @@ r.put("/update", auth, async (req, res) => {
 });
 
 export default r;
-

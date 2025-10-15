@@ -7,6 +7,7 @@ import morgan from "morgan";
 import connectDB from "./config/db.js";
 import userRoutes from "./routes/user.js";
 import oppRoutes from "./routes/opportunities.js";
+import recommroute from "./routes/recommend.js"
 import matchRoutes from "./routes/match.js";
 import resumeRoutes from "./routes/resume.js";
 import testRoutes from "./routes/test.js";
@@ -29,6 +30,7 @@ app.use("/api/opportunities", oppRoutes);
 app.use("/api/match", matchRoutes);
 app.use("/api/resume", resumeRoutes);
 app.use("/api/job", jobRoutes);
+app.use("/api/recommend",recommroute);
 
 
 const PORT = process.env.PORT;
