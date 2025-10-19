@@ -29,9 +29,9 @@ const Header = () => {
 
       {/* Nav Links */}
       <nav className={`nav-links ${menuOpen ? "open" : ""}`} aria-label="Primary">
-        <a href="#jobs">Jobs</a>
-        <a href="#internships">Internships</a>
-        <a href="#resume">Resume Builder</a>
+        <Link href="#jobs">Jobs</Link>
+        <Link href="#internships">Internships</Link>
+        <Link to='/app'>Resume Builder</Link>
       </nav>
 
       {/* search */}

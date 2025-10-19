@@ -1,6 +1,4 @@
-/* =========================
-   🎨 Global Theme Styles
-   ========================= */
+
 :root {
   /* Colors */
   --primary: #2563eb;     /* Blue */
@@ -65,7 +63,7 @@
 }
 .hero-btn:hover {
   transform: translateY(-4px) scale(1.02);
-  box-shadow: var(--shadow-md);
+  /* box-shadow: var(--shadow-md); */
 }
 
 /* =========================
