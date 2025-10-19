@@ -5,7 +5,9 @@ import PersonalInfoForm from '../Components/PersonalInfoForm'
 import { dummyResumeData } from '../assets/assets';
 import ResumePreview from '../Components/ResumePreview';
 import TemplateSelector from '../Components/TemplateSelector';
-// import ColorPicker from '../Components/ColorPicker';
+import ColorPicker from '../Components/ColorPicker';
+import ProfessionalSummaryForm from '../Components/ProfessionalSummaryForm';
+import ExperienceForm from '../Components/ExperienceForm';
 
 
 const ResumeBuilder = () => {
@@ -77,7 +79,7 @@ const ResumeBuilder = () => {
                    
                   <div className='flex items-center gap-2'>
                     <TemplateSelector selectedTemplate={resumeData.template} onChange={(template)=> setResumeData(prev => ({...prev, template}))}/>
-                      {/* <ColorPicker selectedColor={resumeData.accent_color} onChange={(color)=>setResumeData(prev => ({...prev, accent_color:color}))}/> */}
+                      <ColorPicker selectedColor={resumeData.accent_color} onChange={(color)=>setResumeData(prev => ({...prev, accent_color:color}))}/>
                   </div>
 
                   <div className='flex items-center'>
@@ -96,6 +98,12 @@ const ResumeBuilder = () => {
                  <div className='space-y-6'>
                     {activeSection.id === 'personal' && (
                       <PersonalInfoForm data={resumeData.personal_info} onChange={(data)=>setResumeData(prev => ({ ... prev, personal_info:data }))} removeBackground={removeBackground} setRemoveBackground={setRemoveBackground}/>
+                    )}
+                    {activeSection.id === 'summary' && (
+                      <ProfessionalSummaryForm data={resumeData.professional_summary} onChange={(data)=> setResumeData(prev=> ({...prev, professional_summary: data}))} setResumeData={setResumeData}/>
+                    )}
+                    {activeSection.id === 'experience' && (
+                      <ExperienceForm data={resumeData.experience} onChange={(data)=> setResumeData(prev=> ({...prev, experience: data}))} />
                     )}
                  </div>
               </div>   
