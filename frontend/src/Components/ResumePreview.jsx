@@ -2,6 +2,7 @@ import React from 'react'
 import ClassicTemplate from './templates/ClassicTemplate'
 import ModernTemplate from './templates/ModernTemplate'
 import MinimalTemplate from './templates/MinimalTemplate'
+import MinimalCorporate from './templates/MinimalCorporate'
 import MinimalImageTemplate from './templates/MinimalImageTemplate'
 
 const ResumePreview = ({data, template, accentColor, classes = ""}) => {
@@ -15,7 +16,8 @@ const ResumePreview = ({data, template, accentColor, classes = ""}) => {
             case "minimal-image":
                 return <MinimalImageTemplate data={data} accentColor={accentColor}/>
                 
-        
+            case "minimal-corporate":
+                return <MinimalCorporate data={data} accentColor={accentColor}/>
             default:
                 return <ClassicTemplate data={data} accentColor={accentColor}/>
                 
