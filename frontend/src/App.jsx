@@ -10,6 +10,7 @@ import Layout from "./pages/Layout";
 import Dashboard from "./pages/Dashboard";
 import Preview from "./pages/Preview";
 import ResumeBuilder from "./pages/ResumeBuilder";
+import Jonpage from "./pages/Jonpage";
 
 function App() {
   return (
@@ -22,6 +23,8 @@ function App() {
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/recommendations" element={<RecommendationPage />} />
         <Route path="/dashboard" element={<DashboardPage/>} />
+        <Route path="/opportunity/:id" element={<Jonpage />} />
+
 
 
 

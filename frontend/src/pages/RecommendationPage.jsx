@@ -231,7 +231,7 @@ function RecommendationsPage() {
         ) : recommendations.length === 0 ? (
           <div className="text-center py-20">
             <p className="text-gray-500">
-              No recommendations available at the moment.
+              No recommendations available at the moment...Please go and Update your Profile.
             </p>
           </div>
         ) : (
@@ -267,9 +267,13 @@ function RecommendationsPage() {
                       )}
                     </div>
 
-                    <button className="mt-5 flex items-center justify-center gap-2 px-5 py-2 rounded-lg bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-medium hover:opacity-90 transition">
-                      View Details <span>➡️</span>
-                    </button>
+                    <button
+  onClick={() => navigate(`/opportunity/${opp._id}`)}
+  className="mt-5 flex items-center justify-center gap-2 px-5 py-2 rounded-lg bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-medium hover:opacity-90 transition"
+>
+  View Details <span>➡️</span>
+</button>
+
                   </div>
                 </div>
               );

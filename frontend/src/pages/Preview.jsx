@@ -1,45 +1,168 @@
-import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
-import { dummyResumeData } from '../assets/assets'
-import ResumePreview from '../Components/ResumePreview'
-import Loader from '../Components/Loader'
-import { ArrowLeftIcon } from 'lucide-react'
+import React from "react";
 
-const Preview = () => {
-  const {resumeId} = useParams()
+const ResumePreview = ({ data, template, accentColor,classes }) => {
+  if (!data) return null;
 
-  const[isLoading, setIsLoading] = useState(true)
+  const {
+    full_name,
+    personal_info = {},
+    professional_summary,
+    experience = [],
+    education = [],
+    project = [],
+    skills = []
+  } = data;
 
-  const [resumeData, setResumeData] = useState(null)
+  return (
+    <div
+      className={`w-full p-8 text-slate-800 print:p-0 ${classes}`}
+      style={{
+        background: "white",
+        "--accent": accentColor,
+      }}
+    >
+      {/* PRINT CSS INSIDE COMPONENT */}
+      <style>
+        {`
+          @media print {
+            body * {
+              visibility: hidden;
+            }
+            .resume-print-area,
+            .resume-print-area * {
+              visibility: visible !important;
+            }
+            .resume-print-area {
+              position: absolute;
+              inset: 0;
+              background: white !important;
+              -webkit-print-color-adjust: exact !important;
+              color-adjust: exact !important;
+              print-color-adjust: exact !important;
+            }
+          }
+        `}
+      </style>
 
-  const loadResume = async () => {
-    setResumeData(dummyResumeData.find(resume => resume._id === resumeId || null))
-    setIsLoading(false)
-  }
+      <div className="resume-print-area">
 
-  useEffect(()=>{
-    loadResume()
-  }, [])
+        {/* Header */}
+        <div
+          className="border-b pb-4 mb-6"
+          style={{ borderColor: "var(--accent)" }}
+        >
+          <h1 className="text-3xl font-bold" style={{ color: "var(--accent)" }}>
+            {personal_info.full_name || "Your Name"}
+          </h1>
 
-  return resumeData ? (
-    <div className='bg-slate-100'>
-      <div className='max-w-3xl mx-auto py-10'>
-        <ResumePreview data={resumeData} template={resumeData.template} accentColor={resumeData.accent_color} classes='py-4 bg-white'/>
+          <p className="text-sm mt-1">
+            {personal_info.email || "email@example.com"} •{" "}
+            {personal_info.location || "Location"}
+          </p>
+        </div>
+
+        {/* Summary */}
+        {professional_summary && (
+          <section className="mb-6">
+            <h2
+              className="text-xl font-semibold mb-1"
+              style={{ color: "var(--accent)" }}
+            >
+              Professional Summary
+            </h2>
+            <p className="text-sm leading-relaxed">
+              {professional_summary}
+            </p>
+          </section>
+        )}
+
+        {/* Experience */}
+        {experience.length > 0 && (
+          <section className="mb-6">
+            <h2
+              className="text-xl font-semibold mb-2"
+              style={{ color: "var(--accent)" }}
+            >
+              Experience
+            </h2>
+
+            {experience.map((exp, i) => (
+              <div key={i} className="mb-3">
+                <h3 className="font-semibold">{exp.role}</h3>
+                <p className="text-sm text-slate-600">{exp.company}</p>
+                <p className="text-xs mt-1">{exp.description}</p>
+              </div>
+            ))}
+          </section>
+        )}
+
+        {/* Education */}
+        {education.length > 0 && (
+          <section className="mb-6">
+            <h2
+              className="text-xl font-semibold mb-2"
+              style={{ color: "var(--accent)" }}
+            >
+              Education
+            </h2>
+
+            {education.map((edu, i) => (
+              <div key={i} className="mb-3">
+                <h3 className="font-semibold">{edu.degree}</h3>
+                <p className="text-sm text-slate-600">{edu.school}</p>
+              </div>
+            ))}
+          </section>
+        )}
+
+        {/* Projects */}
+        {project.length > 0 && (
+          <section className="mb-6">
+            <h2
+              className="text-xl font-semibold mb-2"
+              style={{ color: "var(--accent)" }}
+            >
+              Projects
+            </h2>
+
+            {project.map((p, i) => (
+              <div key={i} className="mb-3">
+                <h3 className="font-semibold">{p.title}</h3>
+                <p className="text-sm text-slate-600">{p.description}</p>
+              </div>
+            ))}
+          </section>
+        )}
+
+        {/* Skills */}
+        {skills.length > 0 && (
+          <section className="mb-4">
+            <h2
+              className="text-xl font-semibold mb-2"
+              style={{ color: "var(--accent)" }}
+            >
+              Skills
+            </h2>
+
+            <div className="flex gap-2 flex-wrap">
+              {skills.map((s, i) => (
+                <span
+                  key={i}
+                  className="text-sm px-3 py-1 rounded-full"
+                  style={{
+                    background: "var(--accent)",
+                    color: "white",
+                  }}
+                >
+                  {s}
+                </span>
+              ))}
+            </div>
+          </section>
+        )}
       </div>
     </div>
-  ) : (
-    <div>
-      {isLoading ? <Loader/> : (
-        <div className='flex flex-col items-center justify-center h-screen'>
-          <p className='text-center text-6xl text-slate-400 font-medium'>Resume not found</p>
-          <a href="/" className='mt-6 bg-green-500 hover:bg-green-600 text-white rounded-full px-6 h-9 m-1 ring-offset-1 ring-1 ring-green-400 flex items-center transition-colors'>
-            <ArrowLeftIcon className='mr-2 size-4'/>
-            go to home page
-          </a>
-        </div>
-      )}
-    </div>
-  )
-}
+  );
+};
 
-export default Preview
+export default ResumePreview;

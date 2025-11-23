@@ -9,7 +9,7 @@ const router = express.Router();
 // ✅ GET recommendations for logged-in user
 router.get("/me", auth, async (req, res) => {
   try {
-    const userId = req.user.id; // JWT se automatic
+    const userId = req.user.id;
     const user = await User.findById(userId);
     if (!user) return res.status(404).json({ message: "User not found" });
 
@@ -19,17 +19,23 @@ router.get("/me", auth, async (req, res) => {
     const opportunities = await Opportunity.find();
 
     const scoredOpportunities = opportunities.map((opp) => {
-      let score = 0;
+      const jobSkills = opp.skills || [];
 
-      // 1️⃣ Skill match
+      // 1️⃣ Skill match calculation
       const skillMatches = skills.filter((skill) =>
-        opp.skills.includes(skill)
-      ).length;
-      score += skillMatches * 2;
+        jobSkills.includes(skill)
+      );
+      const skillMatchPercent =
+        jobSkills.length > 0
+          ? (skillMatches.length / jobSkills.length) * 100
+          : 0;
+
+      let score = 0;
+      score += skillMatches.length * 2;
 
       // 2️⃣ Resume bullet tags
       const tagMatches = resumeBullets.filter((bullet) =>
-        opp.tags.some((tag) =>
+        (opp.tags || []).some((tag) =>
           bullet.toLowerCase().includes(tag.toLowerCase())
         )
       ).length;
@@ -45,7 +51,7 @@ router.get("/me", auth, async (req, res) => {
 
       // 4️⃣ Location
       if (location) {
-        if (opp.remote || opp.location.toLowerCase().includes(location.toLowerCase())) {
+        if (opp.remote || (opp.location || "").toLowerCase().includes(location.toLowerCase())) {
           score += 1.5;
         }
       }
@@ -56,16 +62,19 @@ router.get("/me", auth, async (req, res) => {
       // 6️⃣ Popularity
       score += opp.popularityScore || 0;
 
-      return { opportunity: opp, score };
+      return { opportunity: opp, score, skillMatchPercent };
     });
 
-    // Sort descending
-    scoredOpportunities.sort((a, b) => b.score - a.score);
+    // Filter by skill match ≥ 25%
+    const filtered = scoredOpportunities.filter(
+      (o) => o.skillMatchPercent >= 25
+    );
+
+    // Sort descending by score
+    filtered.sort((a, b) => b.score - a.score);
 
     // Return top 10
-    const topRecommendations = scoredOpportunities
-      .slice(0, 10)
-      .map((o) => o.opportunity);
+    const topRecommendations = filtered.slice(0, 10).map((o) => o.opportunity);
 
     res.json(topRecommendations);
   } catch (err) {
