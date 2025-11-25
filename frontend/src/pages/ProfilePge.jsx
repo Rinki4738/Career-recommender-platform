@@ -41,7 +41,7 @@ export default function ProfilePage() {
 
     (async function fetchProfile() {
       try {
-        const res = await fetch("http://localhost:4000/api/user/me", {
+        const res = await fetch("${import.meta.env.VITE_API_URL}/api/user/me", {
           headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
         });
         const data = await res.json();
@@ -133,7 +133,7 @@ export default function ProfilePage() {
         resumeBullets: form.resumeBullets,
       };
 
-      const res = await fetch("http://localhost:4000/api/user/update", {  // <-- ensure route matches backend
+      const res = await fetch("${import.meta.env.VITE_API_URL}/api/user/update", {  // <-- ensure route matches backend
         method: "PUT",
         headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
         body: JSON.stringify(payload),

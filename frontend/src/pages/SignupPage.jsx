@@ -34,7 +34,7 @@ function SignupPage() {
       localStorage.setItem("token", data.token);
 
       // 3️⃣ Fetch user profile immediately
-      const profileRes = await fetch("http://localhost:4000/api/user/me", {
+      const profileRes = await fetch("${import.meta.env.VITE_API_URL}/api/user/me", {
         headers: { Authorization: `Bearer ${data.token}` },
       });
 
