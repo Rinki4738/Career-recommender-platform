@@ -25,7 +25,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors({
   origin: [
     "http://localhost:5173",
-    "https://career-recommender-platform-qr5b.vercel.app"
+    "https://career-recommender-platform-jcl6.vercel.app"
   ],
   credentials: true
 }));
