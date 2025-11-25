@@ -10,7 +10,7 @@ const Header = () => {
     <header className="bg-white shadow-md py-4 px-6 flex items-center justify-between flex-wrap gap-4">
       {/* Logo */}
       <div className="text-2xl font-bold text-gray-900">
-        CareerCo
+        CareerMate
       </div>
 
       {/* Mobile menu toggle */}
@@ -36,10 +36,10 @@ const Header = () => {
       </nav>
 
       {/* search */}
-      <div className={`w-full lg:w-auto ${menuOpen ? "block" : "hidden"} lg:block flex items-center border border-gray-300 rounded-lg px-3 py-2 focus-within:ring-2 focus-within:ring-indigo-500 transition`} role="search">
+      {/* <div className={`w-full lg:w-auto ${menuOpen ? "block" : "hidden"} lg:block flex items-center border border-gray-300 rounded-lg px-3 py-2 focus-within:ring-2 focus-within:ring-indigo-500 transition`} role="search">
         <input type="text" placeholder="Job title, keyword, or company" aria-label="Search jobs" className="flex-grow border-none outline-none text-gray-800 placeholder-gray-400" />
         <button className="ml-3 bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition">Search</button>
-      </div>
+      </div> */}
 
       {/* Auth */}
       <div className={`w-full lg:w-auto ${menuOpen ? "block" : "hidden"} lg:block flex flex-col lg:flex-row items-center gap-4 lg:gap-4 mt-4 lg:mt-0`}>
