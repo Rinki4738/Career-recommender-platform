@@ -25,7 +25,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors({
   origin: [
     "http://localhost:5173",
-    "https://your-frontend.vercel.app"   // ← Yaha tumhara actual frontend domain
+    "https://career-recommender-platform-qr5b.vercel.app"
   ],
   credentials: true
 }));
