@@ -1,9 +1,10 @@
-// src/pages/SignupPage.jsx
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function SignupPage() {
   const [form, setForm] = useState({ name: "", email: "", password: "" });
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -11,23 +12,52 @@ function SignupPage() {
 
   const handleSignup = async (e) => {
     e.preventDefault();
-    const res = await fetch("http://localhost:4000/api/user/register", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(form),
-    });
+    setLoading(true);
 
-    const data = await res.json();
-    if (res.ok) {
-      alert("Signup successful! Please login.");
-    } else {
-      alert(data.error || "Signup failed");
+    try {
+      // 1️⃣ Signup request
+      const res = await fetch("http://localhost:4000/api/user/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        alert(data.error || "Signup failed");
+        setLoading(false);
+        return;
+      }
+
+      // 2️⃣ Store token
+      localStorage.setItem("token", data.token);
+
+      // 3️⃣ Fetch user profile immediately
+      const profileRes = await fetch("http://localhost:4000/api/user/me", {
+        headers: { Authorization: `Bearer ${data.token}` },
+      });
+
+      const profileData = await profileRes.json();
+
+      if (!profileRes.ok) {
+        alert("Failed to load user profile");
+        setLoading(false);
+        return;
+      }
+
+      // 4️⃣ Redirect to dashboard with user loaded
+      navigate("/dashboard", { state: { user: profileData } });
+    } catch (err) {
+      console.error(err);
+      alert("Something went wrong!");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-500 to-purple-600">
-      {/* Centered Signup Card */}
       <div className="w-[90%] max-w-md bg-white rounded-2xl shadow-lg p-8">
         <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">
           Create Account 👋
@@ -83,7 +113,7 @@ function SignupPage() {
             type="submit"
             className="w-full bg-indigo-600 text-black py-2 rounded-lg font-medium hover:bg-indigo-700 transition"
           >
-            Signup
+            {loading ? "Creating Account..." : "Signup"}
           </button>
         </form>
 

@@ -15,6 +15,9 @@ import jobRoutes from "./routes/job.js";
 
 
 
+
+
+
 dotenv.config();
 const app = express();
 app.use(express.json());
@@ -31,6 +34,7 @@ app.use("/api/match", matchRoutes);
 app.use("/api/resume", resumeRoutes);
 app.use("/api/job", jobRoutes);
 app.use("/api/recommend",recommroute);
+
 
 
 const PORT = process.env.PORT;
