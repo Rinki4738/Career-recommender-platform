@@ -35,10 +35,10 @@ const Header = () => {
       </nav>
 
       {/* search */}
-      <div className="search-bar" role="search">
+      {/* <div className="search-bar" role="search">
         <input type="text" placeholder="Job title, keyword, or company" aria-label="Search jobs" />
         <button>Search</button>
-      </div>
+      </div> */}
 
       {/* Auth */}
       <div className="auth">

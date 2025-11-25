@@ -12,16 +12,7 @@ const Hero = () => {
         <p>Find jobs & internships tailored to your skills with AI guidance.</p>
 
         {/* Auth Buttons */}
-        <div className="auth-buttons">
-          <button className="email-btn">
-            <MdEmail size={20} style={{ marginRight: "8px" }} />
-            Login with Email
-          </button>
-          <button className="google-btn">
-            <FcGoogle size={20} style={{ marginRight: "8px" }} />
-            Login with Google
-          </button>
-        </div>
+        
       </div>
     </section>
   );
