@@ -16,7 +16,7 @@ function SignupPage() {
 
     try {
       // 1️⃣ Signup request
-      const res = await fetch("http://localhost:4000/api/user/register", {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/user/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
@@ -34,7 +34,7 @@ function SignupPage() {
       localStorage.setItem("token", data.token);
 
       // 3️⃣ Fetch user profile immediately
-      const profileRes = await fetch("${import.meta.env.VITE_API_URL}/api/user/me", {
+      const profileRes = await fetch(`${import.meta.env.VITE_API_URL}/api/user/me`, {
         headers: { Authorization: `Bearer ${data.token}` },
       });
 

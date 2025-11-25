@@ -130,14 +130,14 @@ function RecommendationsPage() {
 
       try {
         // fetch recommendations
-        const recRes = await fetch("${import.meta.env.VITE_API_URL}/api/recommend/me", {
+        const recRes = await fetch(`${import.meta.env.VITE_API_URL}/api/recommend/me`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         const recData = await recRes.json();
         if (recRes.ok) setRecommendations(recData);
 
         // fetch user info
-        const userRes = await fetch("${import.meta.env.VITE_API_URL}/api/user/me", {
+        const userRes = await fetch(`${import.meta.env.VITE_API_URL}/api/user/me`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         const userData = await userRes.json();

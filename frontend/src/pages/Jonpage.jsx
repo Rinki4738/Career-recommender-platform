@@ -18,7 +18,7 @@ function OpportunityDetails() {
   // ---------------- FETCH USER SKILLS ----------------
 async function fetchUserSkills() {
   try {
-    const res = await fetch("${import.meta.env.VITE_API_URL}/api/user/me", {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/user/me`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -74,7 +74,7 @@ async function fetchUserSkills() {
   // ---------------- ADD SKILL TO USER PROFILE ----------------
   async function addSkillToProfile(skill) {
   try {
-    const res = await fetch("${import.meta.env.VITE_API_URL}/api/user/add-skill", {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/user/add-skill`, {
       method: "POST",
       headers: { 
         "Content-Type": "application/json",
