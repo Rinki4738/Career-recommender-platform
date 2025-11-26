@@ -8,7 +8,7 @@ This project aims to help users create resumes that match company expectations a
 ---
 
 ## 🧠 Key Features
-- 🔍 **AI-Powered Job Recommendations:**  
+- 🔍  Job Recommendations:**  
   Suggests the best-fit jobs based on user profile, education, and skill set.
 
 - 🧾 **Personalized AI Resume Builder:**  
